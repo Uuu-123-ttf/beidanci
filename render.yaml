@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: beidanci
+    runtime: node
+    plan: free
+    region: singapore
+    healthCheckPath: /api/health
+    buildCommand: cd server && npm install --include=dev && cd ../client && npm install --include=dev && npm run build && cd ../server && npm run db:generate
+    startCommand: cd server && npm run db:deploy && npm run start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
